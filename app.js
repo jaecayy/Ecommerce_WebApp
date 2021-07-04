@@ -1,5 +1,6 @@
-///////////////////////////////////////////////////////////////////
-
+if(process.env.NODE_ENV !=='production'){
+    require('dotenv').config();
+}
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -12,7 +13,6 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
-
 // Routes
 const productRoutes = require('./routes/product');
 const authRoutes = require('./routes/auth');
@@ -20,7 +20,7 @@ const cartRoutes = require('./routes/cart');
 const paymentRoutes = require('./routes/payment');
 const userRoutes = require('./routes/user');
 
-mongoose.connect('mongodb://localhost:27017/shopApp',
+mongoose.connect(process.env.DB_URL,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -84,6 +84,6 @@ app.use(paymentRoutes);
 app.use(userRoutes);
 
 
-app.listen(5500, () => {
-    console.log("Server Started AT PORT 3000");
+app.listen(process.env.PORT || 8000, () => {
+    console.log("Server Started AT PORT 8000");
 })
